@@ -1,20 +1,15 @@
 import {GraphQLServer} from 'graphql-yoga';
-
-
-const typeDefs = `
- type Query {
-     hello: String!
- }`;
+import Query from './resolvers/Query';
+import db from './db';
 
  const resolvers = {
-     Query: {
-         hello: () => `Hello Word`
-     }
+   Query
  }
 
  const server = new GraphQLServer({
-     typeDefs,
-     resolvers
+     typeDefs: './src/schema.graphql',
+     resolvers,
+     context: {db}
  })
 
 server.start(() => {
