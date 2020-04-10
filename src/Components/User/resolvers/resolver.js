@@ -1,6 +1,18 @@
 import {v4 as uuidv4} from 'uuid'
 
 
+const user = (parent, args, ctx, info) => {
+  const {db} = ctx
+  const {id} = args
+
+  if(!id)
+    return db.users
+
+    return db.users.filter(user => user.id === id)
+}
+
+
+
 const createUser = (parent, args, {db}, info) => {
     const emailIsTaken = db.users.some(user => user.email === args.email)
 
@@ -41,43 +53,8 @@ const createUser = (parent, args, {db}, info) => {
       return {...userExist, ...data}
   }
 
-// AUTHORS
- const createAuthor = (parent, args, {db}, info) => {
-    const author = {
-        id: uuidv4(),
-        ...args
-    }
 
-    db.authors.push(author)
-
-    return author
- }
-
-
- const updateAuthor = (parent, args, {db}, info) => {
-    const {id, ...data} = args 
-
-     const authorExist = db.authors.find(author => author.id === id)
-
-     if(!authorExist) throw new Error('author not found')
-
-     db.authors =  db.authors.map(author => {
-         if(author.id === id) {
-            author = {...author, ...data}
-            return author
-         }
-
-         return author
-     })
-
-     return {
-         ...authorExist, ...data
-     }
- }
-
-const Mutation = {
-    updateUser, createUser, createAuthor, updateAuthor
+export default {
+  Query: {user},
+  Mutation: { createUser, updateUser}
 }
-
-
-export default Mutation

@@ -1,17 +1,14 @@
 import {GraphQLServer} from 'graphql-yoga'
-import Query from './resolvers/Query'
-import db from './db'
-import Author from './resolvers/Author'
-import Book from './resolvers/Book'
-import Mutation from './resolvers/Mutation'
+import {types as typeDefs, resolvers} from './Components/'
 
+import db from './db'
 
  const server = new GraphQLServer({
-     typeDefs: './src/schema.graphql',
-     resolvers: {Query, Author, Book, Mutation},
+     typeDefs,
+     resolvers,
      context: {db}
  })
 
 server.start(() => {
-    console.log('Server run localhost:4000')
+    console.log('Server run http://localhost:4000')
 })

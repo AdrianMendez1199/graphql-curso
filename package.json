@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "graphql-yoga": "^1.18.3",
+    "merge-graphql-schemas": "^1.7.7",
     "uuid": "^7.0.3"
   },
   "devDependencies": {
