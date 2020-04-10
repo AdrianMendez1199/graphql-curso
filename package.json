@@ -18,7 +18,8 @@
     "url": "git+https://github.com/AdrianMendez1199/graphql-curso.git"
   },
   "dependencies": {
-    "graphql-yoga": "^1.18.3"
+    "graphql-yoga": "^1.18.3",
+    "uuid": "^7.0.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

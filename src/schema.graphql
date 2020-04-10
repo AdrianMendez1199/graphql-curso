@@ -1,11 +1,68 @@
  type Query {
      hello(name: String!): String!
-
      user(id: ID): [User!]!
+     author(id: ID): [Author!]!
+     book(id: ID): [Book!]!
  }
 
  type User {
      id: ID!
      name: String!
      lastname: String!
+     email: String
+ }
+
+
+ type Author {
+     id: ID!
+     name: String!
+     country: String!
+     register_by: User!
+     books: [Book!]!
+ }
+
+
+ type Book {
+     id: ID!
+     title: String!
+     description: String!
+     quantity: Int!
+     price: Float!
+     writted_by: Author!
+     register_by: User!
+ }
+
+
+ type Mutation {
+
+     # USER MUTATION #
+     createUser(
+         name: String!
+         lastname: String!
+         email: String!
+         password: String!
+     ): User!
+
+
+     updateUser(
+       id: ID!
+       name: String
+       lastname: String
+       email: String
+       password: String
+     ): User!
+
+
+     # Author Mutations
+     createAuthor(
+         name: String!
+         country: String!
+         register_by: ID!
+      ):Author!
+
+      updateAuthor(
+          id: ID!
+          name: String
+          country: String
+      ): Author!
  }
