@@ -9,21 +9,24 @@ type Query {
      email: String
  }
 
+
+ input createUserInput {
+     name: String!
+     lastname: String!
+     email: String!
+     password: String!
+ }
+
+
+ input updateUserInput {
+      name: String
+      lastname: String
+      email: String
+      password: String
+ }
+
  type Mutation {
-     createUser(
-         name: String!
-         lastname: String!
-         email: String!
-         password: String!
-     ): User!
-
-
-     updateUser(
-       id: ID!
-       name: String
-       lastname: String
-       email: String
-       password: String
-     ): User!
+     createUser(data: createUserInput): User!
+     updateUser(id: ID! data:updateUserInput): User!
 
  }

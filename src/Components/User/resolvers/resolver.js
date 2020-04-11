@@ -13,15 +13,15 @@ const user = (parent, args, ctx, info) => {
 
 
 
-const createUser = (parent, args, {db}, info) => {
-    const emailIsTaken = db.users.some(user => user.email === args.email)
+const createUser = (parent, {data}, {db}, info) => {
+    const emailIsTaken = db.users.some(user => user.email === data.email)
 
     if(emailIsTaken)
-        throw new Error(`Email ${args.email} is taken`)
+        throw new Error(`Email ${data.email} is taken`)
     
     const user = {
         id: uuidv4(),
-        ...args
+        ...data
     }
 
     db.users.push(user)
@@ -30,8 +30,7 @@ const createUser = (parent, args, {db}, info) => {
 
   }
 
-  const updateUser = (parent, args, {db}, info) => {
-      const {id, ...data} = args
+  const updateUser = (parent, {id, data}, {db}, info) => {
 
       const userExist = db.users.find(user => user.id === id)
 
