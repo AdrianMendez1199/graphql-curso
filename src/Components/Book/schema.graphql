@@ -12,3 +12,28 @@
      writted_by: Author!
      register_by: User!
  }
+
+
+
+type Mutation {
+    createBook(
+        title: String!
+        description: String
+        quantity: Int!
+        price: Float!
+        writted_by: ID!
+        register_by: ID!
+    ):Book!
+
+    updateBook(
+        id: ID!
+        title: String
+        description: String
+        quantity: Int
+        price: Float
+    ): Book!
+
+    deleteBook(
+        id: ID!
+    ): Book!
+}
