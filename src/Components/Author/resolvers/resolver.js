@@ -8,10 +8,10 @@ const author = (parent, {id}, {db}, info) => {
  }
 
 
- const createAuthor = (parent, args, {db}, info) => {
+ const createAuthor = (parent, {data}, {db}, info) => {
   const author = {
       id: uuidv4(),
-      ...args
+      ...data
   }
 
   db.authors.push(author)
@@ -20,9 +20,7 @@ const author = (parent, {id}, {db}, info) => {
 }
 
 
-const updateAuthor = (parent, args, {db}, info) => {
-  const {id, ...data} = args 
-
+const updateAuthor = (parent, {id, data}, {db}, info) => {
    const authorExist = db.authors.find(author => author.id === id)
 
    if(!authorExist) throw new Error('author not found')
