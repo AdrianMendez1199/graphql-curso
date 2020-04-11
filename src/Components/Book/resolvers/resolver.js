@@ -7,8 +7,8 @@ const book =  (parent, {id}, {db}, info) => {
     return db.books.filter(book => book.id === id )
 }
 
-const createBook = (parent, args, {db}, info) => {
-    const {writted_by, register_by} = args
+const createBook = (parent, {data}, {db}, info) => {
+    const {writted_by, register_by} = data
     const authorExists = db.authors.find(author => author.id === writted_by)
     const userExists = db.users.find(user => user.id === register_by)
 
@@ -18,7 +18,7 @@ const createBook = (parent, args, {db}, info) => {
 
     const book = {
       id: uuidv4(),
-      ...args
+      ...data
     }
 
     db.books.push(book)
@@ -28,8 +28,7 @@ const createBook = (parent, args, {db}, info) => {
 
 
 
-const updateBook = (parent, args, {db}, info) => {
-   const {id, ...data} = args;
+const updateBook = (parent, {id, data}, {db}, info) => {
    const bookExist = db.books.find(books => books.id === id)
 
    if(!bookExist) throw new Error('book does exitst')

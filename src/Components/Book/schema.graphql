@@ -14,26 +14,25 @@
  }
 
 
+input createBookInput {
+     title: String!
+     description: String
+     quantity: Int!
+     price: Float!
+     writted_by: ID!
+     register_by: ID!
+}
+
+
+input updateBookInput {
+      title: String
+      description: String
+      quantity: Int
+      price: Float
+}
 
 type Mutation {
-    createBook(
-        title: String!
-        description: String
-        quantity: Int!
-        price: Float!
-        writted_by: ID!
-        register_by: ID!
-    ):Book!
-
-    updateBook(
-        id: ID!
-        title: String
-        description: String
-        quantity: Int
-        price: Float
-    ): Book!
-
-    deleteBook(
-        id: ID!
-    ): Book!
+    createBook(data: createBookInput):Book!
+    updateBook(id: ID! data: updateBookInput): Book!
+    deleteBook(id: ID!): Book!
 }
