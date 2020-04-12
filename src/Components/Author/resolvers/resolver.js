@@ -6,7 +6,7 @@ const author = (parent, {id}, {prisma}, info) => {
 
       return prisma.authors.findOne({
         where:{
-          id
+          id,
         }
       });
  }

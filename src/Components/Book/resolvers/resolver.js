@@ -1,10 +1,14 @@
 
 import {v4 as uuidv4} from 'uuid'
-const book =  (parent, {id}, {db}, info) => {
+const book = (parent, {id}, {prisma}, info) => {
     if(!id)
-      return db.books;
+      return prisma.books.findMany();
       
-    return db.books.filter(book => book.id === id )
+     return prisma.books.findOne({
+       where: {
+          id,
+       }
+    })
 }
 
 const createBook = (parent, {data}, {db, pubsub}, info) => {
@@ -60,7 +64,7 @@ const updateBook = (parent, {id, data}, {db, pubsub}, info) => {
    })
 
    const bookUpdated = { ...bookExist, ...data}
-   
+
    pubsub.publish(`book - ${bookExist.writted_by}`, {
       book: {
          mutation: 'UPDATED',

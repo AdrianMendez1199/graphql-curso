@@ -9,7 +9,7 @@ const user = (parent, args, {primas}, info) => {
 
      return primas.users.findOne({
        where:{
-          id
+          id,
        }
      })
 }

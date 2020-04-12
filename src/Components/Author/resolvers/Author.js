@@ -1,10 +1,18 @@
 
- const register_by = (parent, {id}, {db}, info) => {
-    return db.users.find(user => parent.register_by === user.id)
+ const register_by = (parent, {id}, {prisma}, info) => {
+    return prisma.users.findOne({
+        where: {
+            id,
+        }
+    })
 }
 
-const books = (parent, {id}, {db}, info) => {
-   return db.books.filter(book => book.writted_by === parent.id)
+const books = (parent, {id}, {prisma}, info) => {
+    return prisma.books.findOne({
+        where: {
+            id,
+        }
+    })
 }
 
 export default {
