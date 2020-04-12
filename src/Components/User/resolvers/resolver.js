@@ -1,14 +1,17 @@
 import {v4 as uuidv4} from 'uuid'
 
 
-const user = (parent, args, ctx, info) => {
-  const {db} = ctx
+const user = (parent, args, {primas}, info) => {
   const {id} = args
 
   if(!id)
-    return db.users
+     return primas.users.findMany()
 
-    return db.users.filter(user => user.id === id)
+     return primas.users.findOne({
+       where:{
+          id
+       }
+     })
 }
 
 
