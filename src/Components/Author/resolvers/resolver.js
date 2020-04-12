@@ -1,10 +1,14 @@
 import {v4 as uuidv4} from 'uuid'
 
-const author = (parent, {id}, {db}, info) => {
+const author = (parent, {id}, {prisma}, info) => {
     if(!id)
-      return db.authors
+      return prisma.authors.findMany()
 
-      return db.authors.filter(author => author.id === id);
+      return prisma.authors.findOne({
+        where:{
+          id
+        }
+      });
  }
 
 
