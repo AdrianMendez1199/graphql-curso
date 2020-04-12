@@ -8,14 +8,19 @@ const author = (parent, {id}, {db}, info) => {
  }
 
 
- const createAuthor = (parent, {data}, {db}, info) => {
+ const createAuthor = (parent, {data}, {db, pubsub}, info) => {
   const author = {
       id: uuidv4(),
       ...data
   }
 
   db.authors.push(author)
-
+  pubsub.publish('author', {
+    author: {
+      mutation: 'CREATED',
+      data: author
+    }
+  })
   return author
 }
 
@@ -39,7 +44,9 @@ const updateAuthor = (parent, {id, data}, {db}, info) => {
    }
 }
 
+
  export default {
   Query: {author},
-  Mutation: {createAuthor, updateAuthor}
+  Mutation: {createAuthor, updateAuthor},
+  // Subscription
  }

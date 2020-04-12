@@ -12,6 +12,23 @@ type Query {
 }
 
 
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+type Subscription {
+    author: AuthorSuscriptionPayload!
+}
+
+
+type AuthorSuscriptionPayload {
+  mutation: MutationType!
+  data: Author!
+}
+
+
 input createAuthorInput { 
     name: String!
     country: String!
