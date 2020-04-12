@@ -3,7 +3,7 @@ const writted_by = (parent, {id}, {prisma}, info) => {
         where:{
             id,
         }
-    })
+    }).writted_by()
 }
 
 const register_by = (parent, { id }, { prisma }, info) => {
@@ -11,7 +11,7 @@ const register_by = (parent, { id }, { prisma }, info) => {
         where:{
             id,
         }
-    })
+    }).register_by()
 }
 
 export default {
