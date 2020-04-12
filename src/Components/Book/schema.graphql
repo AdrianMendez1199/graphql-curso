@@ -32,7 +32,20 @@ input updateBookInput {
 }
 
 type Mutation {
-    createBook(data: createBookInput):Book!
+    createBook(data: createBookInput): Book!
     updateBook(id: ID! data: updateBookInput): Book!
     deleteBook(id: ID!): Book!
 }
+
+
+type Subscription {
+  book(authorId: ID!): BookSuscriptionPayload!
+}
+
+
+type BookSuscriptionPayload {
+    mutation: MutationType!
+    data: Book!
+}
+
+
