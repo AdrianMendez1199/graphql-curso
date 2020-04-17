@@ -4,8 +4,15 @@ import bcrypt from 'bcrypt'
 const SECRET = 'Judoneyba*12345'
 
 
-const getUserId = () => {
-    return 'Hello Word'
+const getUserId = request => {
+     const header = request.get('authorization')
+
+     if(!header)
+        throw new Error(`Authentication required`)
+
+     const token = header.replace('Bearer ', '')
+     const {userId} = jwt.verify(token, SECRET)
+     return userId
 }
 
 const hashPassword = async (password) => {

@@ -1,4 +1,4 @@
-import {hashPassword, generateToken} from '../../../utils/'
+import {hashPassword, generateToken, validatePassword} from '../../../utils/'
 
 const signup =  async (parent, {data}, {prisma}, info) => {
 
@@ -33,4 +33,23 @@ const signup =  async (parent, {data}, {prisma}, info) => {
   }
 
 
-  export default {Mutation: { signup, updateUser}}
+  const login = async (parent, {data}, {prisma}, info) => {
+        const user = await prisma.users.findOne({
+            where:{
+                email: data.email
+            }
+        })
+
+     const isValid = await validatePassword(data.password, user.password) 
+
+     if(!isValid)
+        throw new Error(`invalid credentials`)
+
+      return {
+          user,
+          token: generateToken(user.id)
+      }
+  }
+
+
+  export default {Mutation: { signup, updateUser, login}}
