@@ -37,26 +37,22 @@ const createAuthor = async (parent, {data}, {prisma, pubsub}, info) => {
   
   
   const updateAuthor = async (parent, {id, data}, {prisma}, info) => {
-  
-    if (data.register_by)
-        data.users = {
-          connect:{
-             id: Number(data.register_by)
-          }
+    const {register_by, ...rest} = data
+
+    if (register_by)
+         data.users = {
+            connect:{
+                id: Number(register_by)
+             }
         }
-  
-     if(data.writted_by)
-        data.books = {
-          connect: {
-            id: Number(data.writted_by)
-          }
-        }
-  
+
     const updatedAuthor = await prisma.authors.update({
       where:{
         id: Number(id)
       },
-      data
+      data: {
+          ...rest
+      }
     })
   
     return updatedAuthor;

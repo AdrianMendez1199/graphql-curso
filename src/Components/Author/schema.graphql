@@ -38,6 +38,7 @@ input createAuthorInput {
 input updateAuthorInput {
    name: String
    country: String
+   register_by: ID
 }
 
 
