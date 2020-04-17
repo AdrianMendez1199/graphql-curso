@@ -2,8 +2,6 @@ import {GraphQLServer, PubSub} from 'graphql-yoga'
 import {types as typeDefs, resolvers} from './Components/'
 import {PrismaClient} from '@prisma/client'
 
-import db from './db'
-
 const pubsub = new PubSub();
 const prisma = new PrismaClient();
 
