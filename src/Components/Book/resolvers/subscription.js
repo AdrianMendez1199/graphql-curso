@@ -4,8 +4,6 @@ const book =  {
     }
 }
 
-
-
 export default {
     Query: {},
     Mutation:{},

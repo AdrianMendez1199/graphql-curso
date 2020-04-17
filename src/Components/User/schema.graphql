@@ -14,7 +14,7 @@ type Query {
      name: String!
      lastname: String!
      email: String!
-     password: String!
+     #password: String!
  }
 
 
@@ -22,11 +22,10 @@ type Query {
       name: String
       lastname: String
       email: String
-      password: String
+     # password: String
  }
 
  type Mutation {
      createUser(data: createUserInput): User!
      updateUser(id: ID! data:updateUserInput): User!
-
  }

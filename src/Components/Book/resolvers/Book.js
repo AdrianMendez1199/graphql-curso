@@ -1,17 +1,17 @@
 const writted_by = (parent, {id}, {prisma}, info) => {
-    return prisma.authors.findOne({
+    return prisma.books.findOne({
         where:{
-            id,
+            id: Number(parent.id),
         }
-    }).writted_by()
+    }).authors()
 }
 
 const register_by = (parent, { id }, { prisma }, info) => {
-    return prisma.authors.findOne({
+    return prisma.books.findOne({
         where:{
-            id,
+            id: Number(parent.id),
         }
-    }).register_by()
+    }).users()
 }
 
 export default {

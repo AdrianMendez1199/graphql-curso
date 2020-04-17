@@ -1,4 +1,4 @@
-import {v4 as uuidv4} from 'uuid'
+import 'babel-polyfill';
 
 const author = (parent, {id}, {prisma}, info) => {
     if(!id)
@@ -6,51 +6,78 @@ const author = (parent, {id}, {prisma}, info) => {
 
       return prisma.authors.findOne({
         where:{
-          id,
+          id: Number(id),
         }
       });
  }
 
 
- const createAuthor = (parent, {data}, {db, pubsub}, info) => {
-  const author = {
-      id: uuidv4(),
-      ...data
-  }
+ const createAuthor = async (parent, {data}, {prisma, pubsub}, info) => {
+  const {register_by, ...rest} = data
 
-  db.authors.push(author)
+  const newAuthor = await prisma.authors.create({
+     data:{
+       ...rest,
+       users:{
+          connect: {
+             id: Number(register_by)
+          }
+       }
+     }
+  })
+
   pubsub.publish('author', {
     author: {
       mutation: 'CREATED',
-      data: author
+      data: newAuthor
     }
   })
-  return author
+
+  return newAuthor
 }
 
 
-const updateAuthor = (parent, {id, data}, {db}, info) => {
-   const authorExist = db.authors.find(author => author.id === id)
 
-   if(!authorExist) throw new Error('author not found')
+const deleteAuthor = async (parent, {id, data}, {prisma}, info) => {
 
-   db.authors =  db.authors.map(author => {
-       if(author.id === id) {
-          author = {...author, ...data}
-          return author
-       }
+  const deleteAuthor = await prisma.authors.delete({
+    where: {
+      id: Number(id)
+    }
+  })
 
-       return author
-   })
+   return deleteAuthor
+}
 
-   return {
-       ...authorExist, ...data
-   }
+
+const updateAuthor = async (parent, {id, data}, {prisma}, info) => {
+
+  if (data.register_by)
+      data.users = {
+        connect:{
+           id: Number(data.register_by)
+        }
+      }
+
+   if(data.writted_by)
+      data.books = {
+        connect: {
+          id: Number(data.writted_by)
+        }
+      }
+
+  const updatedAuthor = await prisma.author.update({
+    where:{
+      id: Number(id)
+    },
+    data
+  })
+
+  return updatedAuthor;
 }
 
 
  export default {
   Query: {author},
-  Mutation: {createAuthor, updateAuthor},
-  // Subscription
+  Mutation: {createAuthor, updateAuthor, deleteAuthor},
  }

@@ -40,7 +40,9 @@ input updateAuthorInput {
    country: String
 }
 
+
 type Mutation {
     createAuthor(data: createAuthorInput!): Author!
     updateAuthor(id: ID! data: updateAuthorInput): Author!
+    deleteAuthor(id: ID!): Author!
 }

@@ -17,7 +17,7 @@ model authors {
 }
 
 model books {
-  description Int
+  description String
   id          Int      @default(autoincrement()) @id
   price       Int
   quantity    Int
