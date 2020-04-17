@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
  const server = new GraphQLServer({
      typeDefs,
      resolvers,
-     context: {db, pubsub, prisma}
+     context: {pubsub, prisma}
  })
 
 server.start(() => {
