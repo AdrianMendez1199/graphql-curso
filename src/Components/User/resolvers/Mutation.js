@@ -1,16 +1,22 @@
-import {hashPassword} from '../../../utils/'
+import {hashPassword, generateToken} from '../../../utils/'
 
-const createUser =  async (parent, {data}, {prisma}, info) => {
-    const {password, ...rest} = data
+const signup =  async (parent, {data}, {prisma}, info) => {
 
-    const passwordHashed = await hashPassword(password)
+    const password = await hashPassword(data.password)
 
-    return prisma.users.create({
-      data: {
-          ...rest,
-          password: passwordHashed,
-      },
+    const user = await prisma.users.create({
+        data: {
+            ...data,
+            password
+        }
     })    
+
+    const token = generateToken(user.id)
+
+    return  {
+        user,
+        token
+    }
 }
 
   const updateUser = async (parent, {id, data}, {prisma}, info) => {
@@ -27,4 +33,4 @@ const createUser =  async (parent, {data}, {prisma}, info) => {
   }
 
 
-  export default {Mutation: { createUser, updateUser}}
+  export default {Mutation: { signup, updateUser}}
