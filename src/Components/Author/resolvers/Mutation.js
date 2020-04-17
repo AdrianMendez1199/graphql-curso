@@ -52,7 +52,7 @@ const createAuthor = async (parent, {data}, {prisma, pubsub}, info) => {
           }
         }
   
-    const updatedAuthor = await prisma.author.update({
+    const updatedAuthor = await prisma.authors.update({
       where:{
         id: Number(id)
       },

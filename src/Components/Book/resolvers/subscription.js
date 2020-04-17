@@ -5,7 +5,5 @@ const book =  {
 }
 
 export default {
-    Query: {},
-    Mutation:{},
     Subscription: {book}
 }
