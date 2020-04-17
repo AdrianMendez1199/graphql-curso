@@ -1,10 +1,22 @@
-const createUser =  (parent, {data}, {prisma}, info) => {
+import {hashPassword} from '../../../utils/'
+
+const createUser =  async (parent, {data}, {prisma}, info) => {
+    const {password, ...rest} = data
+
+    const passwordHashed = await hashPassword(password)
+
     return prisma.users.create({
-      data,
+      data: {
+          ...rest,
+          password: passwordHashed,
+      },
     })    
 }
 
-  const updateUser = (parent, {id, data}, {prisma}, info) => {
+  const updateUser = async (parent, {id, data}, {prisma}, info) => {
+
+    if(data.password)
+         data.password = await hashPassword(data.password)
 
     return prisma.users.update({
       where:{
@@ -13,6 +25,6 @@ const createUser =  (parent, {data}, {prisma}, info) => {
       data
     })
   }
-  
+
 
   export default {Mutation: { createUser, updateUser}}
