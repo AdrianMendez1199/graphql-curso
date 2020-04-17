@@ -6,7 +6,7 @@ type Query {
      id: ID!
      name: String!
      lastname: String!
-     email: String
+     email: String!
  }
 
 
@@ -14,7 +14,7 @@ type Query {
      name: String!
      lastname: String!
      email: String!
-     #password: String!
+    # password: String!
  }
 
 
@@ -22,10 +22,16 @@ type Query {
       name: String
       lastname: String
       email: String
-     # password: String
+      #password: String
  }
+
+# input singInput {
+ #    email: String!
+  #   password: String! 
+ #}
 
  type Mutation {
      createUser(data: createUserInput): User!
      updateUser(id: ID! data:updateUserInput): User!
+    # singIn(data: singInput!): User!
  }
