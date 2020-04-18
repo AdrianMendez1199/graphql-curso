@@ -8,7 +8,7 @@ type Author {
 
 
 type Query {
-    author(id: ID): [Author!]!
+    author(id: ID first: Int skip: Int): [Author!]!
 }
 
 
