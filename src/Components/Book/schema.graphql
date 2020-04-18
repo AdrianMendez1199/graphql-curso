@@ -8,19 +8,12 @@
 
 
 input bookOrderByInput {
-    id: bookOrderByArg
-    title: bookOrderByArg
-    description: bookOrderByArg
-    quantity: bookOrderByArg
-    price: bookOrderByArg
+    id: orderByArg
+    title: orderByArg
+    description: orderByArg
+    quantity: orderByArg
+    price: orderByArg
 }
-
-enum bookOrderByArg {
-    asc,
-    desc
-}
-
- 
  
  type Book {
      id: ID!
