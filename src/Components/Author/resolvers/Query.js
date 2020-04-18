@@ -2,14 +2,15 @@ import 'babel-polyfill'
 import {getUserId} from '../../../utils/'
 
 
-const author = (parent, {id, first, skip}, {prisma, request}, info) => {
+const author = (parent, {id, first, skip, orderBy}, {prisma, request}, info) => {
      // Middleware validate auth
      getUserId(request)
 
     if(!id)
       return prisma.authors.findMany({
         first, 
-        skip
+        skip,
+        orderBy
       })
 
       return prisma.authors.findOne({
