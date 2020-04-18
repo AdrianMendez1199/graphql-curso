@@ -1,7 +1,19 @@
 
  type Query {
-    book(id: ID): [Book!]!
+    book(id: ID,
+    first: Int,
+    skip: Int ,
+    orderBy: bookOrderByInput): [Book!]!
  } 
+
+
+input bookOrderByInput {
+    id: orderByArg
+    title: orderByArg
+    description: orderByArg
+    quantity: orderByArg
+    price: orderByArg
+}
  
  type Book {
      id: ID!
