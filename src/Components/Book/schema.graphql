@@ -1,7 +1,26 @@
 
  type Query {
-    book(id: ID): [Book!]!
+    book(id: ID,
+    first: Int,
+    skip: Int ,
+    orderBy: bookOrderByInput): [Book!]!
  } 
+
+
+input bookOrderByInput {
+    id: bookOrderByArg
+    title: bookOrderByArg
+    description: bookOrderByArg
+    quantity: bookOrderByArg
+    price: bookOrderByArg
+}
+
+enum bookOrderByArg {
+    asc,
+    desc
+}
+
+ 
  
  type Book {
      id: ID!

@@ -1,11 +1,15 @@
 import {getUserId} from '../../../utils/'
 
-const book = (parent, {id}, {prisma, request}, info) => {
+const book = (parent, {id,  first, skip, orderBy}, {prisma, request}, info) => {
    // auth middleware 
    getUserId(request)
    
    if(!id)
-      return prisma.books.findMany();
+      return prisma.books.findMany({
+         first, 
+         skip, 
+         orderBy
+      });
       
      return prisma.books.findOne({
        where: {
