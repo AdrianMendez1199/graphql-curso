@@ -29,6 +29,8 @@ input updateBookInput {
       description: String
       quantity: Int
       price: Float
+      writted_by: ID
+      register_by: ID
 }
 
 type Mutation {

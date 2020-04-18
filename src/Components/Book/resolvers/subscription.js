@@ -1,11 +1,14 @@
+import {getUserId} from '../../../utils/'
+
 const book =  {
-    subscribe(parent, {authorId}, {pubsub}, info){
+    subscribe(parent, {authorId, request}, {pubsub}, info){
+        // Auth middlewate
+        getUserId(request)
+
         return pubsub.asyncIterator(`book - ${authorId}`)
     }
 }
 
 export default {
-    Query: {},
-    Mutation:{},
     Subscription: {book}
 }

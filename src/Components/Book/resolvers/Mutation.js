@@ -1,15 +1,9 @@
-const book = (parent, {id}, {prisma}, info) => {
-    if(!id)
-      return prisma.books.findMany();
-      
-     return prisma.books.findOne({
-       where: {
-          id,
-       }
-    })
-}
+import {getUserId} from '../../../utils/'
 
-const createBook = async (parent, {data}, {prisma, pubsub}, info) => {
+const createBook = async (parent, {data}, {prisma, pubsub, request}, info) => {
+    // auth middleware
+    getUserId(request)
+  
     const {writted_by, register_by, ...rest} = data
 
     const newBook = await prisma.books.create({
@@ -41,28 +35,29 @@ const createBook = async (parent, {data}, {prisma, pubsub}, info) => {
 
 
 
-const updateBook = async (parent, {id, data}, {prisma, pubsub}, info) => {
-
-
-   if(data.register_by)
-      data.users = {
-         connect: {
-            id: Number(data.register_by)
-         }
+const updateBook = async (parent, {id, data}, {prisma, pubsub, request}, info) => {
+     // auth middleware
+     getUserId(request)
+  
+    const {register_by, writted_by, ...rest} = data
+  
+   if(register_by)
+      rest.users = {
+         connect: {id: Number(register_by) }
       }
 
-    if(data.writted_by)
-      data.books = {
-         connect: {
-            id: Number(data.writted_by)
-         }
-      }
+  if(writted_by)
+        rest.authors = {
+            connect: {id: Number(writted_by)}
+        }
 
    const bookUpdated = await prisma.books.update({
        where: {
           id: Number(id)
        },
-       data
+      data: { 
+          ...rest, 
+      }
    })
 
    pubsub.publish(`book - ${bookUpdated.writted_by}`, {
@@ -76,15 +71,17 @@ const updateBook = async (parent, {id, data}, {prisma, pubsub}, info) => {
 }
 
 
-const deleteBook = async(parent, {id}, {prisma, pubsub}, info) => {
-   
+const deleteBook = async(parent, {id}, {prisma, pubsub, request}, info) => {
+    // auth middleware
+    getUserId(request)
+  
   const deletedBook = await  prisma.books.delete({
      where:{
         id: Number(id)
      }
   })
    
-   pubsub.publish(`book - ${bookExist.writted_by}`, {
+   pubsub.publish(`book - ${deletedBook.writted_by}`, {
       book:{
          mutation: 'DELETED',
          data: deletedBook
@@ -96,6 +93,5 @@ const deleteBook = async(parent, {id}, {prisma, pubsub}, info) => {
 
 
 export default {
-  Query: {book},
-  Mutation: {createBook, updateBook, deleteBook}
+    Mutation: {createBook, updateBook, deleteBook}
 }

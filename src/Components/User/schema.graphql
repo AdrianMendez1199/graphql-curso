@@ -6,15 +6,15 @@ type Query {
      id: ID!
      name: String!
      lastname: String!
-     email: String
+     email: String!
  }
 
 
- input createUserInput {
+ input signupInput {
      name: String!
      lastname: String!
      email: String!
-     #password: String!
+     password: String!
  }
 
 
@@ -22,10 +22,22 @@ type Query {
       name: String
       lastname: String
       email: String
-     # password: String
+      password: String
  }
 
+ type AuthPayload {
+   user: User!
+   token: String!
+ }
+
+ input inputSignIn {
+  email: String!
+  password: String!
+ }
+
+
  type Mutation {
-     createUser(data: createUserInput): User!
+     login(data: inputSignIn!): AuthPayload!
+     signup(data: signupInput!): AuthPayload!
      updateUser(id: ID! data:updateUserInput): User!
  }
