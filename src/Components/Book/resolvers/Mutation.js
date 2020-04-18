@@ -1,4 +1,9 @@
-const createBook = async (parent, {data}, {prisma, pubsub}, info) => {
+import {getUserId} from '../../../utils/'
+
+const createBook = async (parent, {data}, {prisma, pubsub, request}, info) => {
+    // auth middleware
+    getUserId(request)
+  
     const {writted_by, register_by, ...rest} = data
 
     const newBook = await prisma.books.create({
@@ -30,7 +35,10 @@ const createBook = async (parent, {data}, {prisma, pubsub}, info) => {
 
 
 
-const updateBook = async (parent, {id, data}, {prisma, pubsub}, info) => {
+const updateBook = async (parent, {id, data}, {prisma, pubsub, request}, info) => {
+     // auth middleware
+     getUserId(request)
+  
     const {register_by, writted_by, ...rest} = data
   
    if(register_by)
@@ -63,8 +71,10 @@ const updateBook = async (parent, {id, data}, {prisma, pubsub}, info) => {
 }
 
 
-const deleteBook = async(parent, {id}, {prisma, pubsub}, info) => {
-   
+const deleteBook = async(parent, {id}, {prisma, pubsub, request}, info) => {
+    // auth middleware
+    getUserId(request)
+  
   const deletedBook = await  prisma.books.delete({
      where:{
         id: Number(id)

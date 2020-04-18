@@ -1,7 +1,6 @@
-import {hashPassword, generateToken, validatePassword} from '../../../utils/'
+import {hashPassword, generateToken, validatePassword, getUserId} from '../../../utils/'
 
 const signup =  async (parent, {data}, {prisma}, info) => {
-
     const password = await hashPassword(data.password)
 
     const user = await prisma.users.create({
@@ -19,7 +18,12 @@ const signup =  async (parent, {data}, {prisma}, info) => {
     }
 }
 
-  const updateUser = async (parent, {id, data}, {prisma}, info) => {
+  const updateUser = async (parent, {id, data}, {prisma, request}, info) => {
+    // auth middleware
+    const userId = getUserId(request)
+
+    if(userId !== id)
+        throw new Error(`Unauthorize`)
 
     if(data.password)
          data.password = await hashPassword(data.password)
@@ -33,7 +37,9 @@ const signup =  async (parent, {data}, {prisma}, info) => {
   }
 
 
+
   const login = async (parent, {data}, {prisma}, info) => {
+
         const user = await prisma.users.findOne({
             where:{
                 email: data.email

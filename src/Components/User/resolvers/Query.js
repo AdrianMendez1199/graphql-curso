@@ -1,4 +1,11 @@
-const user = (parent, args, {prisma}, info) => {
+import {getUserId} from '../../../utils'
+
+
+const user = (parent, args, {prisma, request}, info) => {
+  
+  // auth middleware
+  getUserId(request)
+
   const {id} = args
 
   if(!id)

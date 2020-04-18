@@ -1,5 +1,10 @@
-const book = (parent, {id}, {prisma}, info) => {
-    if(!id)
+import {getUserId} from '../../../utils/'
+
+const book = (parent, {id}, {prisma, request}, info) => {
+   // auth middleware 
+   getUserId(request)
+   
+   if(!id)
       return prisma.books.findMany();
       
      return prisma.books.findOne({
@@ -11,7 +16,10 @@ const book = (parent, {id}, {prisma}, info) => {
 
 
 
-const writted_by = (parent, {id}, {prisma}, info) => {
+const writted_by = (parent, {id}, {prisma, request}, info) => {
+   // auth middleware 
+   getUserId(request)
+
    return prisma.books.findOne({
        where:{
            id: Number(parent.id),
@@ -19,7 +27,10 @@ const writted_by = (parent, {id}, {prisma}, info) => {
    }).authors()
 }
 
-const register_by = (parent, { id }, { prisma }, info) => {
+const register_by = (parent, { id }, { prisma, request}, info) => {
+    // auth middleware 
+    getUserId(request)
+
    return prisma.books.findOne({
        where:{
            id: Number(parent.id),

@@ -1,4 +1,9 @@
-const createAuthor = async (parent, {data}, {prisma, pubsub}, info) => {
+import {getUserId} from '../../../utils/'
+
+const createAuthor = async (parent, {data}, {prisma, pubsub, request}, info) => {
+    // Middleware validate auth
+    getUserId(request)
+
     const {register_by, ...rest} = data
   
     const newAuthor = await prisma.authors.create({
@@ -24,8 +29,10 @@ const createAuthor = async (parent, {data}, {prisma, pubsub}, info) => {
   
   
   
-  const deleteAuthor = async (parent, {id, data}, {prisma}, info) => {
-  
+  const deleteAuthor = async (parent, {id, data}, {prisma, request}, info) => {
+     // Middleware validate auth
+    getUserId(request)
+
     const deleteAuthor = await prisma.authors.delete({
       where: {
         id: Number(id)
@@ -36,7 +43,11 @@ const createAuthor = async (parent, {data}, {prisma, pubsub}, info) => {
   }
   
   
-  const updateAuthor = async (parent, {id, data}, {prisma}, info) => {
+  const updateAuthor = async (parent, {id, data}, {prisma, request}, info) => {
+
+    // Middleware validate auth
+    getUserId(request)
+
     const {register_by, ...rest} = data
 
     if (register_by)
