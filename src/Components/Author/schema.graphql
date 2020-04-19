@@ -8,9 +8,23 @@ type Author {
 
 
 type Query {
-    author(id: ID): [Author!]!
+    author(id: ID, 
+    first: Int, 
+    skip: Int,
+    orderBy: authorOrderByInput): [Author!]!
 }
 
+
+input authorOrderByInput {
+  id: orderByArg
+  name: orderByArg
+  country: orderByArg
+}
+
+enum orderByArg {
+  asc,
+  desc
+}
 
 enum MutationType {
   CREATED
@@ -38,6 +52,7 @@ input createAuthorInput {
 input updateAuthorInput {
    name: String
    country: String
+   register_by: ID
 }
 
 

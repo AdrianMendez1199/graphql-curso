@@ -1,7 +1,19 @@
 
  type Query {
-    book(id: ID): [Book!]!
+    book(id: ID,
+    first: Int,
+    skip: Int ,
+    orderBy: bookOrderByInput): [Book!]!
  } 
+
+
+input bookOrderByInput {
+    id: orderByArg
+    title: orderByArg
+    description: orderByArg
+    quantity: orderByArg
+    price: orderByArg
+}
  
  type Book {
      id: ID!
@@ -29,6 +41,8 @@ input updateBookInput {
       description: String
       quantity: Int
       price: Float
+      writted_by: ID
+      register_by: ID
 }
 
 type Mutation {
