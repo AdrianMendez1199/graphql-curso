@@ -1,12 +1,12 @@
 import {getUserId} from '../../../utils'
 
 
-const user = (parent, args, {prisma, request}, info) => {
+function user (parent: string, args: Object, {prisma, request}: any, info: string) {
   
   // auth middleware
   getUserId(request)
 
-  const {id} = args
+  const {id} : any = args
 
   if(!id)
      return prisma.users.findMany()

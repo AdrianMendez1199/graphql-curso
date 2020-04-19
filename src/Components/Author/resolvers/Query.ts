@@ -1,8 +1,7 @@
-import 'babel-polyfill'
-import {getUserId} from '../../../utils/'
+import {getUserId} from '../../../utils'
 
 
-const author = (parent, {id, first, skip, orderBy}, {prisma, request}, info) => {
+function author  (parent: any, {id, first, skip, orderBy}: any, {prisma, request}: any, info: any) : Object {
      // Middleware validate auth
      getUserId(request)
 
@@ -20,7 +19,7 @@ const author = (parent, {id, first, skip, orderBy}, {prisma, request}, info) => 
       });
  }
 
- const register_by = (parent, {id}, {prisma, request}, info) => {
+ function register_by  (parent: any, {id}: any, {prisma, request}: any , info: any) : Object {
     // Middleware validate auth
     getUserId(request)
 
@@ -31,7 +30,7 @@ const author = (parent, {id, first, skip, orderBy}, {prisma, request}, info) => 
   }).users()
 }
 
-const books = (parent, {id}, {prisma}, info) => {
+const books = (parent: any, {id}: any, {prisma, request}: any, info: any) => {
     // Middleware validate auth
     getUserId(request)
 

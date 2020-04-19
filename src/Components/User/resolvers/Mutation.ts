@@ -1,6 +1,6 @@
-import {hashPassword, generateToken, validatePassword, getUserId} from '../../../utils/'
+import {hashPassword, generateToken, validatePassword, getUserId} from '../../../utils'
 
-const signup =  async (parent, {data}, {prisma}, info) => {
+async function signup  (parent: any, {data} : any, {prisma} : any, info: any) : Promise<Object> {
     const password = await hashPassword(data.password)
 
     const user = await prisma.users.create({
@@ -18,7 +18,7 @@ const signup =  async (parent, {data}, {prisma}, info) => {
     }
 }
 
-  const updateUser = async (parent, {id, data}, {prisma, request}, info) => {
+ async function  updateUser (parent: string, {id, data}:number|any, {prisma, request}: any, info: string): Promise<any> {
     // auth middleware
     const userId = getUserId(request)
 
@@ -35,10 +35,10 @@ const signup =  async (parent, {data}, {prisma}, info) => {
       data
     })
   }
+ 
 
 
-
-  const login = async (parent, {data}, {prisma}, info) => {
+ async function login (parent: string, {data}: any, {prisma}: any, info: string): Promise<Object> {
 
         const user = await prisma.users.findOne({
             where:{

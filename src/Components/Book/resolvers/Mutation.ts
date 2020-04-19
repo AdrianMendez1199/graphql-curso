@@ -1,6 +1,6 @@
-import {getUserId} from '../../../utils/'
+import {getUserId} from '../../../utils'
 
-const createBook = async (parent, {data}, {prisma, pubsub, request}, info) => {
+async function createBook  (parent: Object, {data}: any, {prisma, pubsub, request}: any, info: Object) : Promise<Object> {
     // auth middleware
     getUserId(request)
   
@@ -35,7 +35,7 @@ const createBook = async (parent, {data}, {prisma, pubsub, request}, info) => {
 
 
 
-const updateBook = async (parent, {id, data}, {prisma, pubsub, request}, info) => {
+ async function updateBook (parent: Object, {id, data}: any, {prisma, pubsub, request}: any, info: Object): Promise<Object> {
      // auth middleware
      getUserId(request)
   
@@ -71,7 +71,7 @@ const updateBook = async (parent, {id, data}, {prisma, pubsub, request}, info) =
 }
 
 
-const deleteBook = async(parent, {id}, {prisma, pubsub, request}, info) => {
+async function deleteBook(parent: Object, {id}: any, {prisma, pubsub, request}: any, info: Object): Promise<Object> {
     // auth middleware
     getUserId(request)
   

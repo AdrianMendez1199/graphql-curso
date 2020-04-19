@@ -1,6 +1,6 @@
-import {getUserId} from '../../../utils/'
+import {getUserId} from '../../../utils'
 
-const createAuthor = async (parent, {data}, {prisma, pubsub, request}, info) => {
+async function createAuthor  (parent: any, {data}: any, {prisma, pubsub, request}: any, info: any): Promise<any> {
     // Middleware validate auth
     getUserId(request)
 
@@ -29,7 +29,7 @@ const createAuthor = async (parent, {data}, {prisma, pubsub, request}, info) => 
   
   
   
-  const deleteAuthor = async (parent, {id, data}, {prisma, request}, info) => {
+  async function deleteAuthor (parent: any, {id}: any, {prisma, request}: any, info: any) : Promise<any>{
      // Middleware validate auth
     getUserId(request)
 
@@ -43,12 +43,12 @@ const createAuthor = async (parent, {data}, {prisma, pubsub, request}, info) => 
   }
   
   
-  const updateAuthor = async (parent, {id, data}, {prisma, request}, info) => {
+  async function updateAuthor  (parent: any, {id, data}: any, {prisma, request}: any, info: any) : Promise<any>  {
 
     // Middleware validate auth
     getUserId(request)
 
-    const {register_by, ...rest} = data
+    const {register_by, ...rest}: any = data
 
     if (register_by)
          data.users = {
@@ -57,7 +57,7 @@ const createAuthor = async (parent, {data}, {prisma, pubsub, request}, info) => 
              }
         }
 
-    const updatedAuthor = await prisma.authors.update({
+    const updatedAuthor: Object = await prisma.authors.update({
       where:{
         id: Number(id)
       },

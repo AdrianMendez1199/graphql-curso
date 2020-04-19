@@ -1,8 +1,8 @@
 
-import {getUserId} from '../../../utils/'
+import {getUserId} from '../../../utils'
 
   const author = {
-    subscribe(parent, args, {pubsub, request}, info) {
+    subscribe(parent: any, args: any, {pubsub, request}: any, info: any) : Object{
       
       getUserId(request)
 

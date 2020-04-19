@@ -1,5 +1,5 @@
 import {GraphQLServer, PubSub} from 'graphql-yoga'
-import {types as typeDefs, resolvers} from './Components/'
+import {types as typeDefs, resolvers} from './Components'
 import {PrismaClient} from '@prisma/client'
 
 const pubsub = new PubSub();
