@@ -1,26 +1,38 @@
-import {hashPassword, generateToken, validatePassword, getUserId} from '../../../utils'
+import {
+       hashPassword, 
+       generateToken,
+       validatePassword, 
+       getUserId,
+       argsTypes,
+       Context
+    } from '../../../utils'
 
-async function signup  (parent: any, {data} : any, {prisma} : any, info: any) : Promise<Object> {
-    const password = await hashPassword(data.password)
+    async function signup  (parent: any, args : argsTypes, ctx : Context) : Promise<Object> {
+        const {data} = args
+        const {prisma} = ctx;
+        const password = await hashPassword(data.password)
 
-    const user = await prisma.users.create({
-        data: {
-            ...data,
-            password
+        const user = await prisma.users.create({
+            data: {
+                ...data,
+                password
+            }
+        })    
+
+        const token = generateToken(user.id)
+
+        return  {
+            user,
+            token
         }
-    })    
-
-    const token = generateToken(user.id)
-
-    return  {
-        user,
-        token
-    }
 }
 
- async function  updateUser (parent: string, {id, data}:number|any, {prisma, request}: any, info: string): Promise<any> {
+ async function  updateUser (parent: string, args : argsTypes, ctx : Context): Promise<Object> {
     // auth middleware
-    const userId = getUserId(request)
+    const {prisma, request} = ctx
+    const {id, data} = args
+
+    const userId = <number>getUserId(request)
 
     if(userId !== id)
         throw new Error(`Unauthorize`)
@@ -38,7 +50,9 @@ async function signup  (parent: any, {data} : any, {prisma} : any, info: any) : 
  
 
 
- async function login (parent: string, {data}: any, {prisma}: any, info: string): Promise<Object> {
+    async function login (parent: string, args : argsTypes, ctx : Context): Promise<Object> {
+        const {prisma} = ctx
+        const {data} = args
 
         const user = await prisma.users.findOne({
             where:{
@@ -46,7 +60,7 @@ async function signup  (parent: any, {data} : any, {prisma} : any, info: any) : 
             }
         })
 
-     const isValid = await validatePassword(data.password, user.password) 
+      const isValid = await validatePassword(data.password, user.password) 
 
      if(!isValid)
         throw new Error(`invalid credentials`)

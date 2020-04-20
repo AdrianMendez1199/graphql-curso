@@ -23,7 +23,7 @@ export type argsTypes = {
 
 
   
-export function getUserId (request: any) : string {
+export function getUserId (request: any) : number {
     let header: string = request
 
      if (typeof request == "object")
