@@ -1,8 +1,12 @@
-import {getUserId} from '../../../utils'
+import {getUserId, Context, argsTypes} from '../../../utils'
 
 
-function author  (parent: any, {id, first, skip, orderBy}: any, {prisma, request}: any, info: any) : Object {
-     // Middleware validate auth
+function author (parent: any, args: argsTypes, ctx: Context) : Object {
+  
+    const {id, first, skip, orderBy} = args;
+    const {prisma, request} = ctx;
+
+    // Middleware validate auth
      getUserId(request)
 
     if(!id)
@@ -19,26 +23,31 @@ function author  (parent: any, {id, first, skip, orderBy}: any, {prisma, request
       });
  }
 
- function register_by  (parent: any, {id}: any, {prisma, request}: any , info: any) : Object {
-    // Middleware validate auth
-    getUserId(request)
+ function register_by  (parent: any, args: argsTypes, ctx: Context) : Object {
+      const {id} = args
+      const {prisma, request} = ctx;
 
-  return prisma.authors.findOne({
-      where:{
-          id: Number(parent.id)
-      }
-  }).users()
+      // Middleware validate auth
+      getUserId(request)
+
+      return prisma.authors.findOne({
+          where:{
+              id: Number(parent.id)
+          }
+      }).users()
 }
 
-const books = (parent: any, {id}: any, {prisma, request}: any, info: any) => {
+function books (parent: any, args: argsTypes, ctx: Context) : Object {
+   const {prisma, request} = ctx
+   
     // Middleware validate auth
     getUserId(request)
 
-  return prisma.books.findOne({
-      where:{
-          id: Number(parent.id)
-      }
-  }).authors()
+    return prisma.books.findOne({
+        where:{
+            id: Number(parent.id)
+        }
+    }).authors()
 }
 
  export default {

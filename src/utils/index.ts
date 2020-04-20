@@ -14,10 +14,14 @@ export type Context = {
 
 
 export type argsTypes = {
-    id?: number
-    data?: any
+    id?:    number
+    data?:  any
+    first?: number 
+    skip?:  number
+    orderBy?: string
 } 
-  
+
+
   
 export function getUserId (request: any) : string {
     let header: string = request

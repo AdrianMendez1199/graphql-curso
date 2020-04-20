@@ -8,7 +8,7 @@ async function createAuthor  (parent: any, args: argsTypes, ctx: Context): Promi
 
      const {register_by, ...rest} = args.data
   
-    const newAuthor = await prisma.authors.create({
+    const newAuthor: Object = await prisma.authors.create({
        data:{
          ...rest,
          users:{
@@ -36,7 +36,7 @@ async function createAuthor  (parent: any, args: argsTypes, ctx: Context): Promi
      // Middleware validate auth
     getUserId(request)
 
-    const deleteAuthor = await prisma.authors.delete({
+    const deleteAuthor: Object = await prisma.authors.delete({
       where: {
         id: Number(id)
       }
