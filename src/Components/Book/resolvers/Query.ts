@@ -1,9 +1,9 @@
-import {getUserId} from '../../../utils'
+import {getUserId, Context, argsTypes} from '../../../utils'
 
-function book (parent: any, params: string[], ctx: any): Object {
+function book (parent: any, args: argsTypes, ctx: Context): Object {
 
-    const {id,  first, skip, orderBy}: any = params;
-    const {prisma, request}: any = ctx
+    const {id,  first, skip, orderBy} = args;
+    const {prisma, request} = ctx
 
     // auth middleware 
    getUserId(request)
@@ -24,8 +24,8 @@ function book (parent: any, params: string[], ctx: any): Object {
 
 
 
-function writted_by (parent: any, params: any, ctx: any) {
-    const {prisma, request}: any = ctx;
+function writted_by (parent: any, args: argsTypes, ctx: Context) : Object {
+    const {prisma, request} = ctx;
    // auth middleware 
    getUserId(request)
 
@@ -36,8 +36,8 @@ function writted_by (parent: any, params: any, ctx: any) {
    }).authors()
 }
 
-function register_by  (parent: any, params: any,  ctx:any, info: any) : Object {
-    const {prisma, request}: any = ctx;
+function register_by  (parent: any, args: argsTypes, ctx: Context ) : Object {
+    const {prisma, request} = ctx;
     // auth middleware 
     getUserId(request)
 

@@ -1,12 +1,11 @@
-import {getUserId} from '../../../utils'
+import {getUserId, Context, argsTypes} from '../../../utils'
 
   const author = {
-    subscribe(parent: any, args: any, ctx: any, info: any) : Object {
+    subscribe(parent: any, args: argsTypes, ctx: Context) : Object {
        const {pubsub} = ctx;
 
        // Middleware Auth
        getUserId(ctx.connection.context.authorization)
-       
        return pubsub.asyncIterator('author');
     }
   

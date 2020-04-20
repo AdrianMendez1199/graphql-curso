@@ -1,11 +1,11 @@
-import {getUserId} from '../../../utils'
+import {getUserId, Context, argsTypes} from '../../../utils'
 
-async function createBook  (parent: any, params: any, cxt: any) : Promise<Object> {
+async function createBook  (parent: any, args: argsTypes, cxt: Context) : Promise<Object> {
    const {prisma, pubsub, request} = cxt;
     // auth middleware
     getUserId(request)
   
-    const {writted_by, register_by, ...rest} = params.data
+    const {writted_by, register_by, ...rest} = args.data
 
     const newBook = await prisma.books.create({
        data:{
@@ -36,49 +36,49 @@ async function createBook  (parent: any, params: any, cxt: any) : Promise<Object
 
 
 
- async function updateBook (parent: Object, params: any, ctx: any): Promise<Object> {
+ async function updateBook (parent: Object, args: argsTypes, ctx: Context): Promise<Object> {
 
-    const {id, data} : any = params;
-    const {prisma, pubsub, request} : any = ctx;
-     // auth middleware
-     getUserId(request)
+      const {id, data} = args;
+      const {prisma, pubsub, request}  = ctx;
+      // auth middleware
+      getUserId(request)
+   
+      const {register_by, writted_by, ...rest} = data
+   
+      if(register_by)
+         rest.users = {
+            connect: {id: Number(register_by) }
+         }
+
+   if(writted_by)
+         rest.authors = {
+               connect: {id: Number(writted_by)}
+         }
+
+      const bookUpdated = await prisma.books.update({
+         where: {
+            id: Number(id)
+         },
+         data: { 
+            ...rest, 
+         }
+      })
+
+      pubsub.publish(`book - ${bookUpdated.writted_by}`, {
+         book: {
+            mutation: 'UPDATED',
+            data: bookUpdated
+         }
+      })
   
-    const {register_by, writted_by, ...rest} = data
-  
-   if(register_by)
-      rest.users = {
-         connect: {id: Number(register_by) }
-      }
-
-  if(writted_by)
-        rest.authors = {
-            connect: {id: Number(writted_by)}
-        }
-
-   const bookUpdated = await prisma.books.update({
-       where: {
-          id: Number(id)
-       },
-      data: { 
-          ...rest, 
-      }
-   })
-
-   pubsub.publish(`book - ${bookUpdated.writted_by}`, {
-      book: {
-         mutation: 'UPDATED',
-         data: bookUpdated
-      }
-   })
-  
-   return bookUpdated
+      return bookUpdated
 }
 
 
-async function deleteBook(parent: any, params: any, ctx: any): Promise<Object> {
-    const {id}: any = params;
-    
-    const {prisma, pubsub, request}: any = ctx;
+async function deleteBook(parent: any, args: argsTypes, ctx: Context): Promise<Object> {
+    const {id} = args;
+
+    const {prisma, pubsub, request}: Context = ctx;
     // auth middleware
     getUserId(request)
   
