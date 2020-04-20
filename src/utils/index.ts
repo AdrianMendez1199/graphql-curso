@@ -19,7 +19,10 @@ export type argsTypes = {
   
   
 export function getUserId (request: any) : string {
-     const header: string =  request.get('authorization');
+    let header: string = request
+
+     if (typeof request == "object")
+          header = request.get('authorization')
 
      if(!header)
         throw new Error(`Authentication required`)
