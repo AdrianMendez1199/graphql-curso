@@ -9,6 +9,7 @@ export type Context = {
     request?: any
     prisma?:  any
     pubsub?:  any
+    connection?: any
 }
 
 
