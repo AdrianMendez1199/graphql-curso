@@ -1,9 +1,13 @@
 import {getUserId} from '../../../utils'
 
-function book (parent: Object, {id,  first, skip, orderBy}: any, {prisma, request}: any, info: Object ): Object {
-   // auth middleware 
+function book (parent: any, params: string[], ctx: any): Object {
+
+    const {id,  first, skip, orderBy}: any = params;
+    const {prisma, request}: any = ctx
+
+    // auth middleware 
    getUserId(request)
-   
+
    if(!id)
       return prisma.books.findMany({
          first, 
@@ -20,7 +24,8 @@ function book (parent: Object, {id,  first, skip, orderBy}: any, {prisma, reques
 
 
 
-const writted_by = (parent: any, {id}: any, {prisma, request}: any, info: Object) => {
+function writted_by (parent: any, params: any, ctx: any) {
+    const {prisma, request}: any = ctx;
    // auth middleware 
    getUserId(request)
 
@@ -31,7 +36,8 @@ const writted_by = (parent: any, {id}: any, {prisma, request}: any, info: Object
    }).authors()
 }
 
-function register_by  (parent: any, { id }: any, { prisma, request}:any, info: any) : Array<Object> {
+function register_by  (parent: any, params: any,  ctx:any, info: any) : Object {
+    const {prisma, request}: any = ctx;
     // auth middleware 
     getUserId(request)
 

@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 
 const SECRET = 'Judoneyba*12345'
 
-export function getUserId (request: any) : any {
+export function getUserId (request: any) : string {
      const header: string = request.get('authorization')
 
      if(!header)

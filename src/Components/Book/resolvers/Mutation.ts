@@ -1,10 +1,11 @@
 import {getUserId} from '../../../utils'
 
-async function createBook  (parent: Object, {data}: any, {prisma, pubsub, request}: any, info: Object) : Promise<Object> {
+async function createBook  (parent: any, params: any, cxt: any) : Promise<Object> {
+   const {prisma, pubsub, request} = cxt;
     // auth middleware
     getUserId(request)
   
-    const {writted_by, register_by, ...rest} = data
+    const {writted_by, register_by, ...rest} = params.data
 
     const newBook = await prisma.books.create({
        data:{
@@ -35,7 +36,10 @@ async function createBook  (parent: Object, {data}: any, {prisma, pubsub, reques
 
 
 
- async function updateBook (parent: Object, {id, data}: any, {prisma, pubsub, request}: any, info: Object): Promise<Object> {
+ async function updateBook (parent: Object, params: any, ctx: any): Promise<Object> {
+
+    const {id, data} : any = params;
+    const {prisma, pubsub, request} : any = ctx;
      // auth middleware
      getUserId(request)
   
@@ -71,7 +75,10 @@ async function createBook  (parent: Object, {data}: any, {prisma, pubsub, reques
 }
 
 
-async function deleteBook(parent: Object, {id}: any, {prisma, pubsub, request}: any, info: Object): Promise<Object> {
+async function deleteBook(parent: any, params: any, ctx: any): Promise<Object> {
+    const {id}: any = params;
+    
+    const {prisma, pubsub, request}: any = ctx;
     // auth middleware
     getUserId(request)
   
