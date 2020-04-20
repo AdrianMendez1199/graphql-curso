@@ -1,7 +1,8 @@
 import {getUserId} from '../../../utils'
 
 const book =  {
-    subscribe(parent: any, {authorId, request}: any, {pubsub}: any, info: any){
+    subscribe(parent: any, params: any, {pubsub, request}: any, info: any): Function {
+        const {authorId} : any = params
         // Auth middlewate
         getUserId(request)
 

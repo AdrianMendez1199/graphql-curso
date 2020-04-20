@@ -1,10 +1,12 @@
-import {getUserId} from '../../../utils'
+import {getUserId, Context, argsTypes} from '../../../utils'
 
-async function createAuthor  (parent: any, {data}: any, {prisma, pubsub, request}: any, info: any): Promise<any> {
+async function createAuthor  (parent: any, args: argsTypes, ctx: Context): Promise<any> {
     // Middleware validate auth
-    getUserId(request)
+     const {request, prisma, pubsub} = ctx;
+     
+     getUserId(request)
 
-    const {register_by, ...rest} = data
+     const {register_by, ...rest} = args.data
   
     const newAuthor = await prisma.authors.create({
        data:{
@@ -29,7 +31,8 @@ async function createAuthor  (parent: any, {data}: any, {prisma, pubsub, request
   
   
   
-  async function deleteAuthor (parent: any, {id}: any, {prisma, request}: any, info: any) : Promise<any>{
+  async function deleteAuthor (parent: any, {id}: any, ctx: Context) : Promise<Object> {
+    const {prisma, request} = ctx;
      // Middleware validate auth
     getUserId(request)
 
@@ -43,8 +46,8 @@ async function createAuthor  (parent: any, {data}: any, {prisma, pubsub, request
   }
   
   
-  async function updateAuthor  (parent: any, {id, data}: any, {prisma, request}: any, info: any) : Promise<any>  {
-
+  async function updateAuthor  (parent: any, {id, data}: any, ctx: Context, info: any) : Promise<any>  {
+    const {prisma, request} = ctx;
     // Middleware validate auth
     getUserId(request)
 

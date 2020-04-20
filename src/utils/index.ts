@@ -1,10 +1,25 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
+
 const SECRET = 'Judoneyba*12345'
 
+
+export type Context = {
+    request?: any
+    prisma?:  any
+    pubsub?:  any
+}
+
+
+export type argsTypes = {
+    id?: number
+    data?: any
+} 
+  
+  
 export function getUserId (request: any) : string {
-     const header: string = request.get('authorization')
+     const header: string =  request.get('authorization');
 
      if(!header)
         throw new Error(`Authentication required`)
