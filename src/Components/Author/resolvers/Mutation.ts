@@ -1,12 +1,14 @@
-import {getUserId} from '../../../utils/'
+import {getUserId, Context, argsTypes} from '../../../utils'
 
-const createAuthor = async (parent, {data}, {prisma, pubsub, request}, info) => {
+async function createAuthor  (parent: any, args: argsTypes, ctx: Context): Promise<any> {
     // Middleware validate auth
-    getUserId(request)
+     const {request, prisma, pubsub} = ctx;
+     
+     getUserId(request)
 
-    const {register_by, ...rest} = data
+     const {register_by, ...rest} = args.data
   
-    const newAuthor = await prisma.authors.create({
+    const newAuthor: Object = await prisma.authors.create({
        data:{
          ...rest,
          users:{
@@ -29,11 +31,12 @@ const createAuthor = async (parent, {data}, {prisma, pubsub, request}, info) => 
   
   
   
-  const deleteAuthor = async (parent, {id, data}, {prisma, request}, info) => {
+  async function deleteAuthor (parent: any, {id}: any, ctx: Context) : Promise<Object> {
+    const {prisma, request} = ctx;
      // Middleware validate auth
     getUserId(request)
 
-    const deleteAuthor = await prisma.authors.delete({
+    const deleteAuthor: Object = await prisma.authors.delete({
       where: {
         id: Number(id)
       }
@@ -43,12 +46,12 @@ const createAuthor = async (parent, {data}, {prisma, pubsub, request}, info) => 
   }
   
   
-  const updateAuthor = async (parent, {id, data}, {prisma, request}, info) => {
-
+  async function updateAuthor  (parent: any, {id, data}: any, ctx: Context, info: any) : Promise<any>  {
+    const {prisma, request} = ctx;
     // Middleware validate auth
     getUserId(request)
 
-    const {register_by, ...rest} = data
+    const {register_by, ...rest}: any = data
 
     if (register_by)
          data.users = {
@@ -57,7 +60,7 @@ const createAuthor = async (parent, {data}, {prisma, pubsub, request}, info) => 
              }
         }
 
-    const updatedAuthor = await prisma.authors.update({
+    const updatedAuthor: Object = await prisma.authors.update({
       where:{
         id: Number(id)
       },

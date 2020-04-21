@@ -1,8 +1,8 @@
-import {getUserId} from '../../../utils'
+import {getUserId, argsTypes, Context} from '../../../utils'
 
 
-const user = (parent, args, {prisma, request}, info) => {
-  
+function user (parent: string, args: argsTypes, ctx: Context) {
+  const {prisma, request} = ctx
   // auth middleware
   getUserId(request)
 

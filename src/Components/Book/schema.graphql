@@ -1,8 +1,8 @@
 
  type Query {
-    book(id: ID,
-    first: Int,
-    skip: Int ,
+    book(id: ID
+    first: Int
+    skip: Int
     orderBy: bookOrderByInput): [Book!]!
  } 
 
