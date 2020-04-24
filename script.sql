@@ -3,7 +3,7 @@ CREATE TABLE users (
     name VARCHAR,
     lastname VARCHAR,
     email VARCHAR UNIQUE NOT NULL,
-   -- password VARCHAR not null
+    password VARCHAR not null
 );
 
 
